@@ -1,0 +1,208 @@
+<div class="admin-layout">
+
+  <!-- Encabezado -->
+  <header class="admin-header">
+    <div class="admin-header__brand">
+      <span class="admin-header__icon">⚙️</span>
+      <div>
+        <h1 class="admin-header__title">Panel de Administración</h1>
+        <p class="admin-header__sub">NovaTech — Gestión de productos</p>
+      </div>
+    </div>
+    <div class="admin-header__actions">
+      <button type="button" class="btn btn--primary" (click)="abrirCrear()">
+        + Agregar producto
+      </button>
+      <button type="button" class="btn btn--ghost" (click)="cerrarSesion()">
+        Cerrar sesión
+      </button>
+    </div>
+  </header>
+
+  <!-- Tabla de productos -->
+  <main class="admin-main">
+    <div class="admin-card">
+      <div class="admin-card__head">
+        <h2 class="admin-card__title">Productos ({{ productosService.productos().length }})</h2>
+      </div>
+
+      @if (productosService.productos().length === 0) {
+        <div class="admin-empty">
+          <span>No hay productos registrados todavía.</span>
+          <button type="button" class="btn btn--primary" (click)="abrirCrear()">Agregar el primero</button>
+        </div>
+      } @else {
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th class="col-acciones">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of productosService.productos(); track p.id) {
+                <tr>
+                  <td>
+                    <img [src]="p.imagen" [alt]="p.nombre" class="admin-table__img"
+                         onerror="this.src='img/logo.png'">
+                  </td>
+                  <td class="td-nombre">{{ p.nombre }}</td>
+                  <td class="td-desc">{{ p.descripcion }}</td>
+                  <td>
+                    @if (p.precio !== undefined) {
+                      ${{ p.precio | number:'1.2-2' }}
+                    } @else {
+                      <span class="badge-sin-precio">—</span>
+                    }
+                  </td>
+                  <td class="col-acciones">
+                    <button type="button" class="btn btn--sm btn--edit" (click)="abrirEditar(p)">
+                      Editar
+                    </button>
+                    <button type="button" class="btn btn--sm btn--danger" (click)="confirmarEliminar(p.id!)">
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </main>
+
+</div>
+
+<!-- ─── Modal formulario ─── -->
+@if (mostrarFormulario()) {
+  <div class="modal-backdrop" (click)="cerrarFormulario()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal__head">
+        <h2 class="modal__title">{{ tituloFormulario() }}</h2>
+        <button type="button" class="modal__close" (click)="cerrarFormulario()" aria-label="Cerrar">✕</button>
+      </div>
+
+      <form class="modal__body" (ngSubmit)="guardar()" #formRef="ngForm" novalidate>
+
+        <div class="field">
+          <label class="field__label" for="nombre">Nombre *</label>
+          <input
+            id="nombre"
+            type="text"
+            class="field__input"
+            [class.field__input--error]="errores().nombre"
+            [ngModel]="formulario().nombre"
+            (ngModelChange)="actualizarCampo('nombre', $event)"
+            name="nombre"
+            placeholder="Ej. Dell XPS 13"
+          >
+          @if (errores().nombre) {
+            <span class="field__error">{{ errores().nombre }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="descripcion">Descripción *</label>
+          <textarea
+            id="descripcion"
+            class="field__input field__textarea"
+            [class.field__input--error]="errores().descripcion"
+            [ngModel]="formulario().descripcion"
+            (ngModelChange)="actualizarCampo('descripcion', $event)"
+            name="descripcion"
+            rows="3"
+            placeholder="Descripción breve del producto"
+          ></textarea>
+          @if (errores().descripcion) {
+            <span class="field__error">{{ errores().descripcion }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="imagen">Ruta de imagen *</label>
+          <input
+            id="imagen"
+            type="text"
+            class="field__input"
+            [class.field__input--error]="errores().imagen"
+            [ngModel]="formulario().imagen"
+            (ngModelChange)="actualizarCampo('imagen', $event)"
+            name="imagen"
+            placeholder="Ej. img/computadores.png"
+          >
+          @if (errores().imagen) {
+            <span class="field__error">{{ errores().imagen }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="caracteristicas">Características *</label>
+          <textarea
+            id="caracteristicas"
+            class="field__input field__textarea"
+            [class.field__input--error]="errores().caracteristicas"
+            [ngModel]="formulario().caracteristicas"
+            (ngModelChange)="actualizarCampo('caracteristicas', $event)"
+            name="caracteristicas"
+            rows="3"
+            placeholder="Especificaciones técnicas del producto"
+          ></textarea>
+          @if (errores().caracteristicas) {
+            <span class="field__error">{{ errores().caracteristicas }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="precio">Precio (USD)</label>
+          <input
+            id="precio"
+            type="number"
+            class="field__input"
+            [class.field__input--error]="errores().precio"
+            [ngModel]="formulario().precio"
+            (ngModelChange)="actualizarCampo('precio', $event ? +$event : undefined)"
+            name="precio"
+            min="0"
+            step="0.01"
+            placeholder="Ej. 1299.99"
+          >
+          @if (errores().precio) {
+            <span class="field__error">{{ errores().precio }}</span>
+          }
+        </div>
+
+        <div class="modal__footer">
+          <button type="button" class="btn btn--ghost" (click)="cerrarFormulario()">Cancelar</button>
+          <button type="submit" class="btn btn--primary">
+            {{ editandoId() ? 'Guardar cambios' : 'Agregar producto' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+}
+
+<!-- ─── Modal confirmación eliminar ─── -->
+@if (idParaEliminar()) {
+  <div class="modal-backdrop" (click)="cancelarEliminar()">
+    <div class="modal modal--sm" (click)="$event.stopPropagation()">
+      <div class="modal__head">
+        <h2 class="modal__title">Confirmar eliminación</h2>
+      </div>
+      <div class="modal__body">
+        <p class="confirm-msg">¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="modal__footer">
+        <button type="button" class="btn btn--ghost" (click)="cancelarEliminar()">Cancelar</button>
+        <button type="button" class="btn btn--danger" (click)="ejecutarEliminar()">Sí, eliminar</button>
+      </div>
+    </div>
+  </div>
+}

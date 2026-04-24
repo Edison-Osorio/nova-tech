@@ -12,7 +12,7 @@
 </section>
 
 <section id="productos">
-  @for (producto of productos(); track producto.nombre) {
+  @for (producto of productosService.productos(); track producto.nombre) {
     <app-producto-card [producto]="producto" />
   }
 </section>

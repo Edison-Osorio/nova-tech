@@ -21,6 +21,7 @@ export class SesionComponent implements OnInit {
   tabActiva = signal<Tab>('login');
   mensaje = signal('');
   tipoMensaje = signal<'error' | 'ok' | ''>('');
+  private redirectDestino = '';
 
   get estaLogueado() { return this.authService.estaLogueado(); }
   get nombreSesion() { return this.authService.nombreUsuario(); }
@@ -44,6 +45,7 @@ export class SesionComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       this.tabActiva.set(params['modo'] === 'registro' ? 'registro' : 'login');
+      this.redirectDestino = params['redirect'] ?? '';
     });
   }
 
@@ -75,7 +77,8 @@ export class SesionComponent implements OnInit {
     if (error) {
       this.mostrarMensaje(error, 'error');
     } else {
-      this.router.navigate(['/']);
+      const destino = this.redirectDestino ? `/${this.redirectDestino}` : '/';
+      this.router.navigate([destino]);
     }
   }
 

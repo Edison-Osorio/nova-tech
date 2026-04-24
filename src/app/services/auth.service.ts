@@ -3,15 +3,24 @@ import { Injectable, signal, computed } from '@angular/core';
 const STORAGE_USUARIOS = 'novatech_usuarios';
 const STORAGE_SESION = 'novatech_sesion';
 
+const ADMIN_DEFAULT: Usuario = {
+  nombre: 'Administrador',
+  email: 'admin@novatech.com',
+  password: 'Admin2024!',
+  rol: 'admin',
+};
+
 export interface Usuario {
   nombre: string;
   email: string;
   password: string;
+  rol: 'admin' | 'usuario';
 }
 
 export interface Sesion {
   nombre: string;
   email: string;
+  rol: 'admin' | 'usuario';
 }
 
 @Injectable({ providedIn: 'root' })
@@ -20,6 +29,22 @@ export class AuthService {
   readonly sesion = this._sesion.asReadonly();
   readonly estaLogueado = computed(() => this._sesion() !== null);
   readonly nombreUsuario = computed(() => this._sesion()?.nombre ?? '');
+  readonly esAdmin = computed(() => this._sesion()?.rol === 'admin');
+
+  constructor() {
+    this.inicializarAdmin();
+  }
+
+  private inicializarAdmin(): void {
+    const usuarios = this.getUsuarios();
+    const adminExiste = usuarios.some(
+      u => u.email.toLowerCase() === ADMIN_DEFAULT.email
+    );
+    if (!adminExiste) {
+      usuarios.unshift(ADMIN_DEFAULT);
+      this.guardarUsuarios(usuarios);
+    }
+  }
 
   private cargarSesion(): Sesion | null {
     try {
@@ -48,7 +73,7 @@ export class AuthService {
     const usuarios = this.getUsuarios();
     const u = usuarios.find(x => x.email.toLowerCase() === email.toLowerCase());
     if (!u || u.password !== password) return 'Correo o contraseña incorrectos.';
-    const sesion: Sesion = { nombre: u.nombre, email: u.email };
+    const sesion: Sesion = { nombre: u.nombre, email: u.email, rol: u.rol };
     localStorage.setItem(STORAGE_SESION, JSON.stringify(sesion));
     this._sesion.set(sesion);
     return null;
@@ -62,7 +87,7 @@ export class AuthService {
     if (usuarios.some(x => x.email.toLowerCase() === email.toLowerCase())) {
       return 'Ese correo ya está registrado.';
     }
-    usuarios.push({ nombre: nombre.trim(), email: email.toLowerCase(), password });
+    usuarios.push({ nombre: nombre.trim(), email: email.toLowerCase(), password, rol: 'usuario' });
     this.guardarUsuarios(usuarios);
     return null;
   }

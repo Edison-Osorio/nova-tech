@@ -25,6 +25,11 @@
         <span class="nav-usuario" [title]="authService.sesion()?.email ?? ''">
           Hola, {{ authService.nombreUsuario() }}
         </span>
+        @if (authService.esAdmin()) {
+          <a routerLink="/admin" class="button button--nav button--admin" title="Panel de administración">
+            ⚙️ Admin
+          </a>
+        }
         <button type="button" class="button button--nav" (click)="cerrarSesion()">Cerrar sesión</button>
       } @else {
         <a routerLink="/sesion" class="button button--nav">Iniciar sesión</a>

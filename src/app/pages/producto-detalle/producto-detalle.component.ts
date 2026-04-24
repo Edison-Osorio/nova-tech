@@ -1,12 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { ProductosService } from '../../services/productos.service';
 import { FavoritosService } from '../../services/favoritos.service';
 import { CarritoService } from '../../services/carrito.service';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
-import { Producto } from '../../models/producto.model';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -24,29 +22,24 @@ export class ProductoDetalleComponent {
   favoritosService = inject(FavoritosService);
   carritoService = inject(CarritoService);
 
-  producto = signal<Producto | null>(null);
-  noEncontrado = signal(false);
+  private nombreParam = signal('');
+
+  producto = computed(() => {
+    const nombre = this.nombreParam();
+    if (!nombre) return null;
+    return this.productosService.getByNombre(nombre) ?? null;
+  });
+
+  noEncontrado = computed(() => this.nombreParam() !== '' && this.producto() === null);
+
   cantidadSeleccionada = signal(1);
   confirmacionVisible = signal(false);
   private confirmacionTimer: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(
-        switchMap(params => {
-          const nombre = decodeURIComponent(params['nombre'] || '');
-          return this.productosService.getProductos().pipe(
-            switchMap(lista => {
-              const found = lista.find(p => p.nombre === nombre) ?? null;
-              return [found];
-            })
-          );
-        })
-      )
-      .subscribe(p => {
-        this.producto.set(p);
-        this.noEncontrado.set(p === null);
-      });
+    this.route.params.subscribe(params => {
+      this.nombreParam.set(decodeURIComponent(params['nombre'] || ''));
+    });
   }
 
   get esFavorito(): boolean {

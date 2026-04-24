@@ -92,6 +92,15 @@ a.button--nav {
   box-sizing: border-box;
 }
 
+a.button--admin {
+  background-color: #e76f51;
+  gap: 0.3rem;
+}
+
+a.button--admin:hover {
+  background-color: #c1440e;
+}
+
 .nav-usuario {
   font-size: 14px;
   color: #333;
