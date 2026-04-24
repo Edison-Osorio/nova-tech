@@ -1,5 +1,6 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { Producto } from '../models/producto.model';
+import { AuthService } from './auth.service';
 
 const STORAGE_KEY = 'carrito';
 
@@ -9,11 +10,28 @@ export interface ItemCarrito extends Producto {
 
 @Injectable({ providedIn: 'root' })
 export class CarritoService {
+  private auth = inject(AuthService);
   private _items = signal<ItemCarrito[]>(this.cargarDeStorage());
+  private lastEmail = this.auth.sesion()?.email ?? null;
   readonly items = this._items.asReadonly();
   readonly count = computed(() =>
     this._items().reduce((s, i) => s + i.cantidad, 0)
   );
+
+  constructor() {
+    effect(() => {
+      const email = this.auth.sesion()?.email ?? null;
+      if (email !== this.lastEmail) {
+        this.lastEmail = email;
+        this.limpiar();
+      }
+    });
+  }
+
+  private limpiar(): void {
+    this._items.set([]);
+    localStorage.removeItem(STORAGE_KEY);
+  }
 
   private cargarDeStorage(): ItemCarrito[] {
     try {

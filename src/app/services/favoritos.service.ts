@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { Producto } from '../models/producto.model';
 import { ToastService } from './toast.service';
@@ -12,8 +12,24 @@ export class FavoritosService {
   private auth = inject(AuthService);
   private router = inject(Router);
   private _favoritos = signal<Producto[]>(this.cargarDeStorage());
+  private lastEmail = this.auth.sesion()?.email ?? null;
   readonly favoritos = this._favoritos.asReadonly();
   readonly count = computed(() => this._favoritos().length);
+
+  constructor() {
+    effect(() => {
+      const email = this.auth.sesion()?.email ?? null;
+      if (email !== this.lastEmail) {
+        this.lastEmail = email;
+        this.limpiar();
+      }
+    });
+  }
+
+  private limpiar(): void {
+    this._favoritos.set([]);
+    localStorage.removeItem(STORAGE_KEY);
+  }
 
   private cargarDeStorage(): Producto[] {
     try {
