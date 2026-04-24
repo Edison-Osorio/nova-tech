@@ -1,0 +1,37 @@
+<div class="modal-overlay" (click)="onCerrar()"></div>
+
+<div class="modal-carrito">
+  <div class="modal-carrito__header">
+    <h2 class="modal-carrito__titulo">🛒 Carrito de compras</h2>
+    <button type="button" class="modal-carrito__cerrar" (click)="onCerrar()" title="Cerrar">✕</button>
+  </div>
+
+  @if (carritoService.items().length === 0) {
+    <div class="modal-carrito__empty">
+      <span class="modal-carrito__empty-icon">🛒</span>
+      <p>Tu carrito está vacío</p>
+    </div>
+  } @else {
+    <ul class="modal-carrito__lista">
+      @for (item of carritoService.items(); track item.nombre) {
+        <li class="modal-carrito__item">
+          <img class="modal-carrito__img" [src]="item.imagen" [alt]="item.nombre" />
+          <div class="modal-carrito__info">
+            <span class="modal-carrito__nombre">{{ item.nombre }}</span>
+          </div>
+          <div class="modal-carrito__qty">
+            <button type="button" (click)="onQuitarUno(item.nombre)" title="Quitar uno">−</button>
+            <span>{{ item.cantidad }}</span>
+            <button type="button" (click)="onAgregarUno(item.nombre)" title="Agregar uno">+</button>
+          </div>
+          <button type="button" class="modal-carrito__eliminar" (click)="onEliminar(item.nombre)" title="Eliminar">✕</button>
+        </li>
+      }
+    </ul>
+
+    <div class="modal-carrito__footer">
+      <span class="modal-carrito__total">Total: {{ carritoService.count() }} unidad{{ carritoService.count() !== 1 ? 'es' : '' }}</span>
+      <button type="button" class="modal-carrito__vaciar" (click)="onVaciar()">Vaciar carrito</button>
+    </div>
+  }
+</div>

@@ -4,6 +4,24 @@
   padding: 0 20px;
 }
 
+.detalle-toast-ok {
+  background: #28a745;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .producto-detalle {
   display: flex;
   flex-wrap: wrap;
@@ -59,6 +77,74 @@
 .detalle-acciones .fav-btn {
   flex: 1;
   min-width: 200px;
+}
+
+.detalle-carrito-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detalle-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #1E5DA8;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.detalle-qty__btn {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  background: #1E5DA8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.detalle-qty__btn:hover:not(:disabled) {
+  background: #154a87;
+}
+
+.detalle-qty__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.detalle-qty__val {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #1E5DA8;
+}
+
+.detalle-agregar-btn {
+  padding: 8px 18px;
+  background: #1E5DA8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.detalle-agregar-btn:hover {
+  background: #154a87;
 }
 
 .detalle-volver {

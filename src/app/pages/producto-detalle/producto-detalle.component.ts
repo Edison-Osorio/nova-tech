@@ -21,6 +21,9 @@ export class ProductoDetalleComponent {
 
   producto = signal<Producto | null>(null);
   noEncontrado = signal(false);
+  cantidadSeleccionada = signal(1);
+  confirmacionVisible = signal(false);
+  private confirmacionTimer: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     this.route.params
@@ -49,7 +52,27 @@ export class ProductoDetalleComponent {
     if (this.producto()) this.favoritosService.toggle(this.producto()!);
   }
 
+  incrementarCantidad(): void {
+    this.cantidadSeleccionada.update(n => n + 1);
+  }
+
+  decrementarCantidad(): void {
+    this.cantidadSeleccionada.update(n => Math.max(1, n - 1));
+  }
+
   agregarAlCarrito(): void {
-    if (this.producto()) this.carritoService.agregar(this.producto()!);
+    if (this.producto()) {
+      this.carritoService.agregar(this.producto()!, this.cantidadSeleccionada());
+      this.cantidadSeleccionada.set(1);
+      this.mostrarConfirmacion();
+    }
+  }
+
+  private mostrarConfirmacion(): void {
+    if (this.confirmacionTimer) clearTimeout(this.confirmacionTimer);
+    this.confirmacionVisible.set(true);
+    this.confirmacionTimer = setTimeout(() => {
+      this.confirmacionVisible.set(false);
+    }, 2500);
   }
 }

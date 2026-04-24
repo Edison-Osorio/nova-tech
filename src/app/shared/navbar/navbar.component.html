@@ -31,8 +31,12 @@
         <a routerLink="/sesion" [queryParams]="{modo:'registro'}" class="btn-login btn-login--nav">Regístrate</a>
       }
     </div>
-    <div class="carrito" title="Carrito">
+    <div class="carrito" title="Carrito" (click)="toggleCarrito()">
       🛒 <span class="fav-count">{{ carritoService.count() }}</span>
     </div>
   </div>
 </header>
+
+@if (mostrarCarrito()) {
+  <app-carrito-modal (cerrar)="mostrarCarrito.set(false)" />
+}

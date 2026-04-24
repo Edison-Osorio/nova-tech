@@ -1,4 +1,9 @@
 <main class="detalle-main">
+  @if (confirmacionVisible()) {
+    <div class="detalle-toast-ok" role="alert">
+      ✓ Producto agregado al carrito exitosamente
+    </div>
+  }
   @if (noEncontrado()) {
     <div class="detalle-error">
       <p>Producto no encontrado.</p>
@@ -26,7 +31,16 @@
             <span class="heart">❤</span>
             <span class="fav-text">{{ esFavorito ? 'Favorito' : 'Agregar a favoritos' }}</span>
           </button>
-          <button type="button" (click)="agregarAlCarrito()">Agregar al carrito</button>
+          <div class="detalle-carrito-group">
+            <div class="detalle-qty">
+              <button type="button" class="detalle-qty__btn" (click)="decrementarCantidad()" [disabled]="cantidadSeleccionada() === 1">−</button>
+              <span class="detalle-qty__val">{{ cantidadSeleccionada() }}</span>
+              <button type="button" class="detalle-qty__btn" (click)="incrementarCantidad()">+</button>
+            </div>
+            <button type="button" class="detalle-agregar-btn" (click)="agregarAlCarrito()">
+              🛒 Agregar al carrito
+            </button>
+          </div>
         </div>
       </div>
     </article>
