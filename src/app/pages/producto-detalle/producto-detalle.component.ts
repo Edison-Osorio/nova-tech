@@ -1,9 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ProductosService } from '../../services/productos.service';
 import { FavoritosService } from '../../services/favoritos.service';
 import { CarritoService } from '../../services/carrito.service';
+import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 import { Producto } from '../../models/producto.model';
 
 @Component({
@@ -15,7 +17,10 @@ import { Producto } from '../../models/producto.model';
 })
 export class ProductoDetalleComponent {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private productosService = inject(ProductosService);
+  private authService = inject(AuthService);
+  private toastService = inject(ToastService);
   favoritosService = inject(FavoritosService);
   carritoService = inject(CarritoService);
 
@@ -61,6 +66,11 @@ export class ProductoDetalleComponent {
   }
 
   agregarAlCarrito(): void {
+    if (!this.authService.estaLogueado()) {
+      this.toastService.show('Debes iniciar sesión para agregar productos al carrito.');
+      this.router.navigate(['/sesion']);
+      return;
+    }
     if (this.producto()) {
       this.carritoService.agregar(this.producto()!, this.cantidadSeleccionada());
       this.cantidadSeleccionada.set(1);

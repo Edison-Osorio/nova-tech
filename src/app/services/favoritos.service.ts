@@ -1,12 +1,16 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Producto } from '../models/producto.model';
 import { ToastService } from './toast.service';
+import { AuthService } from './auth.service';
 
 const STORAGE_KEY = 'favoritos';
 
 @Injectable({ providedIn: 'root' })
 export class FavoritosService {
   private toast = inject(ToastService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
   private _favoritos = signal<Producto[]>(this.cargarDeStorage());
   readonly favoritos = this._favoritos.asReadonly();
   readonly count = computed(() => this._favoritos().length);
@@ -34,6 +38,11 @@ export class FavoritosService {
   }
 
   toggle(producto: Producto): void {
+    if (!this.auth.estaLogueado()) {
+      this.toast.show('Debes iniciar sesión para agregar productos a favoritos.');
+      this.router.navigate(['/sesion']);
+      return;
+    }
     if (this.esFavorito(producto.nombre)) {
       this.quitar(producto.nombre);
     } else {
