@@ -1,0 +1,32 @@
+[
+  {
+  "nombre": "Dell XPS 13",
+  "descripcion": "Portátil premium ultradelgado de alto rendimiento",
+  "imagen": "img/computadores.png",
+  "caracteristicas": "Intel Core i7, 16GB RAM, SSD 512GB, pantalla 13.4” Full HD"
+},
+  {
+  "nombre": "Samsung Galaxy S23",
+  "descripcion": "Smartphone de gama alta con gran rendimiento",
+  "imagen": "img/celular.png",
+  "caracteristicas": "Snapdragon 8 Gen 2, 8GB RAM, 256GB, cámara 50MP, pantalla AMOLED"
+},
+  {
+  "nombre": "iPad 10ª Generación",
+  "descripcion": "Tablet versátil para estudio y entretenimiento",
+  "imagen": "img/tablet.png",
+  "caracteristicas": "Pantalla 10.9”, chip A14 Bionic, 64GB, batería todo el día"
+},
+ {
+  "nombre": "Sony WH-1000XM5",
+  "descripcion": "Audífonos inalámbricos con cancelación de ruido",
+  "imagen": "img/accesorios.png",
+  "caracteristicas": "Bluetooth, cancelación de ruido, 30h batería, sonido premium"
+},
+  {
+  "nombre": "Logitech G Pro X Superlight",
+  "descripcion": "Mouse gamer ultraligero de alta precisión",
+  "imagen": "img/perifericos.png",
+  "caracteristicas": "Sensor HERO, inalámbrico, ultra ligero, batería de larga duración"
+}
+]

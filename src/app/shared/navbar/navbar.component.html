@@ -1,0 +1,38 @@
+<header class="navbar">
+  <div class="logo">
+    <a routerLink="/" class="logo-link">
+      <img src="img/logo.png" alt="NovaTech">
+    </a>
+  </div>
+
+  <nav class="menu">
+    <a routerLink="/" routerLinkActive="menu-link--active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+    <a routerLink="/catalogo" routerLinkActive="menu-link--active">Productos</a>
+    <a routerLink="/favoritos" routerLinkActive="menu-link--active">
+      Favoritos <span class="fav-count">{{ favoritosService.count() }}</span>
+    </a>
+    <a routerLink="/contacto" routerLinkActive="menu-link--active">Contacto</a>
+    <a routerLink="/quienes-somos" routerLinkActive="menu-link--active">¿Quiénes somos?</a>
+  </nav>
+
+  <div class="buscador">
+    <input type="text" placeholder="Buscar productos..." disabled style="opacity:0.65" title="Usa el catálogo para buscar">
+  </div>
+
+  <div class="acciones">
+    <div class="acciones-auth">
+      @if (authService.estaLogueado()) {
+        <span class="nav-usuario" [title]="authService.sesion()?.email ?? ''">
+          Hola, {{ authService.nombreUsuario() }}
+        </span>
+        <button type="button" class="button button--nav" (click)="cerrarSesion()">Cerrar sesión</button>
+      } @else {
+        <a routerLink="/sesion" class="button button--nav">Iniciar sesión</a>
+        <a routerLink="/sesion" [queryParams]="{modo:'registro'}" class="btn-login btn-login--nav">Regístrate</a>
+      }
+    </div>
+    <div class="carrito" title="Carrito">
+      🛒 <span class="fav-count">{{ carritoService.count() }}</span>
+    </div>
+  </div>
+</header>

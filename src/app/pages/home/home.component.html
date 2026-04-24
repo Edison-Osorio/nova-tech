@@ -1,0 +1,18 @@
+<section class="hero">
+  <div class="hero-content">
+    <h1>Encuentra productos tecnológicos en un solo lugar</h1>
+    <p>Explora soluciones digitales, rápidas, seguras y confiables para tus necesidades.</p>
+    <button type="button" (click)="irACatalogo()">Explorar productos</button>
+  </div>
+</section>
+
+<section>
+  <h2>Productos destacados</h2>
+  <p class="subtitulo">Descubre nuestros productos más populares para tus necesidades tecnológicas</p>
+</section>
+
+<section id="productos">
+  @for (producto of productos(); track producto.nombre) {
+    <app-producto-card [producto]="producto" />
+  }
+</section>

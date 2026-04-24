@@ -1,0 +1,314 @@
+/* ===== GENERALES ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h2 { text-align: center; }
+
+.subtitulo {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  background: #fafafa;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.logo img { width: 200px; }
+
+.logo-link {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.menu a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.menu a:hover { color: #000; }
+
+.menu a.menu-link--active {
+  color: #1E5DA8;
+  font-weight: 700;
+}
+
+/* ===== BUSCADOR ===== */
+.buscador { display: flex; justify-content: center; }
+
+.buscador input {
+  width: 300px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+/* ===== ACCIONES ===== */
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.acciones-auth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 6px 14px;
+  border: none;
+  background-color: #1E5DA8;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.button:hover { background-color: #154a87; }
+
+a.button--nav {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.nav-usuario {
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-login {
+  padding: 6px 12px;
+  border: 2px solid #050505;
+  background: #000;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.btn-login:hover { background: #222; color: #fff; }
+
+a.btn-login--nav {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+.carrito {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ===== PRODUCTOS ===== */
+#productos,
+#catalogo-productos,
+#favoritos {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+#favoritos .no-favoritos {
+  flex: 1 1 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== CARDS ===== */
+.card {
+  border: 1px solid #290cce;
+  border-radius: 10px;
+  width: 200px;
+  padding: 10px;
+  text-align: center;
+  background: rgba(27, 101, 185, 0.9);
+  color: white;
+}
+
+.card img {
+  width: 80%;
+  height: 120px;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+.card--clickable {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card--clickable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.extra-info {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #fff;
+  text-align: left;
+}
+
+/* ===== BOTONES ===== */
+button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: none;
+  background-color: #1E5DA8;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover { background-color: #154a87; }
+
+/* ===== FAVORITOS ===== */
+.fav-count {
+  background: red;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.fav-btn {
+  background-color: #1E5DA8;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.fav-btn .heart { margin-right: 6px; }
+
+.fav-btn.favorited {
+  background-color: #28a745;
+  box-shadow: 0 2px 6px rgba(40,167,69,0.2);
+}
+
+.fav-btn.favorited:hover { background-color: #218838; }
+
+/* Botones en card favoritos */
+#favoritos .card-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#favoritos .card-buttons button { margin-top: 0; }
+
+.card-buttons .btn-eliminar-fav {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.card-buttons .btn-eliminar-fav:hover { background-color: #c82333; }
+
+/* ===== TOAST ===== */
+#toast-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+}
+
+.toast {
+  background: black;
+  color: white;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #fff;
+  color: black;
+  padding: 40px 20px;
+}
+
+.footer-contenido {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.footer a {
+  display: block;
+  text-decoration: none;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.footer-copy {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buscador input { width: 90%; }
+
+  .acciones { flex-direction: column; }
+
+  #productos,
+  #catalogo-productos,
+  #favoritos {
+    flex-direction: column;
+    align-items: center;
+  }
+}

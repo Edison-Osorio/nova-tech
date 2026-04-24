@@ -1,0 +1,18 @@
+.buscador {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.buscador input {
+  width: 300px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.catalogo-sin-resultados {
+  width: 100%;
+  text-align: center;
+}

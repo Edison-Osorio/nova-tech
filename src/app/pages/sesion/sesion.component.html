@@ -1,0 +1,71 @@
+<main class="auth-main">
+  <h2 class="auth-titulo-pagina">Acceso a NovaTech</h2>
+  <p class="subtitulo">Inicia sesión o crea una cuenta.</p>
+
+  @if (estaLogueado) {
+    <div class="auth-sesion-activa">
+      <p>Ya tienes sesión iniciada como <strong>{{ nombreSesion }}</strong>.</p>
+      <div class="auth-sesion-btns">
+        <a routerLink="/" class="button">Ir al inicio</a>
+        <button type="button" class="btn-login" (click)="cerrarSesion()">Cerrar sesión</button>
+      </div>
+    </div>
+  } @else {
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist">
+        <button
+          type="button"
+          class="auth-tab"
+          [class.auth-tab--active]="tabActiva() === 'login'"
+          (click)="seleccionarTab('login')"
+          role="tab">
+          Iniciar sesión
+        </button>
+        <button
+          type="button"
+          class="auth-tab"
+          [class.auth-tab--active]="tabActiva() === 'registro'"
+          (click)="seleccionarTab('registro')"
+          role="tab">
+          Registrarse
+        </button>
+      </div>
+
+      @if (tabActiva() === 'login') {
+        <div class="auth-panel" role="tabpanel">
+          <form [formGroup]="formLogin" (ngSubmit)="login()" novalidate>
+            <label for="login-email">Correo electrónico</label>
+            <input id="login-email" type="email" formControlName="email" autocomplete="email">
+            <label for="login-password">Contraseña</label>
+            <input id="login-password" type="password" formControlName="password" autocomplete="current-password">
+            <button type="submit" class="auth-submit">Entrar</button>
+          </form>
+        </div>
+      }
+
+      @if (tabActiva() === 'registro') {
+        <div class="auth-panel" role="tabpanel">
+          <form [formGroup]="formRegistro" (ngSubmit)="registrar()" novalidate>
+            <label for="reg-nombre">Nombre</label>
+            <input id="reg-nombre" type="text" formControlName="nombre" autocomplete="name">
+            <label for="reg-email">Correo electrónico</label>
+            <input id="reg-email" type="email" formControlName="email" autocomplete="email">
+            <label for="reg-password">Contraseña</label>
+            <input id="reg-password" type="password" formControlName="password" autocomplete="new-password">
+            <label for="reg-password2">Confirmar contraseña</label>
+            <input id="reg-password2" type="password" formControlName="password2" autocomplete="new-password">
+            <button type="submit" class="auth-submit">Crear cuenta</button>
+          </form>
+        </div>
+      }
+
+      @if (mensaje()) {
+        <p class="auth-mensaje" [class.auth-mensaje--error]="tipoMensaje() === 'error'" [class.auth-mensaje--ok]="tipoMensaje() === 'ok'" role="alert">
+          {{ mensaje() }}
+        </p>
+      }
+    </div>
+  }
+
+  <a routerLink="/" class="auth-volver">← Volver al inicio</a>
+</main>

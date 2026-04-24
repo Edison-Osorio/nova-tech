@@ -1,0 +1,22 @@
+<main>
+  <section>
+    <h2>Catálogo de productos</h2>
+    <p class="subtitulo">Haz clic en una tarjeta para ver la ficha completa, favoritos y carrito.</p>
+    <div class="buscador">
+      <input
+        type="text"
+        placeholder="Buscar productos..."
+        [value]="busqueda()"
+        (input)="onBusqueda($any($event.target).value)">
+    </div>
+  </section>
+
+  <section id="catalogo-productos">
+    @if (productos().length === 0) {
+      <p class="subtitulo catalogo-sin-resultados">No hay productos que coincidan con la búsqueda.</p>
+    }
+    @for (producto of productos(); track producto.nombre) {
+      <app-producto-card [producto]="producto" />
+    }
+  </section>
+</main>

@@ -1,0 +1,34 @@
+<main class="detalle-main">
+  @if (noEncontrado()) {
+    <div class="detalle-error">
+      <p>Producto no encontrado.</p>
+      <a class="detalle-volver" routerLink="/catalogo">Volver al catálogo</a>
+    </div>
+  }
+
+  @if (producto(); as p) {
+    <a class="detalle-volver" routerLink="/catalogo">← Volver al catálogo</a>
+    <article class="producto-detalle">
+      <img [src]="p.imagen || 'img/placeholder.png'" [alt]="p.nombre">
+      <div class="producto-detalle-info">
+        <h1>{{ p.nombre }}</h1>
+        <p class="detalle-desc">{{ p.descripcion }}</p>
+        <div class="detalle-caract">
+          <strong>Características:</strong>
+          <p class="caract-body">{{ p.caracteristicas || 'Información no disponible' }}</p>
+        </div>
+        <div class="detalle-acciones">
+          <button
+            type="button"
+            class="fav-btn"
+            [class.favorited]="esFavorito"
+            (click)="toggleFavorito()">
+            <span class="heart">❤</span>
+            <span class="fav-text">{{ esFavorito ? 'Favorito' : 'Agregar a favoritos' }}</span>
+          </button>
+          <button type="button" (click)="agregarAlCarrito()">Agregar al carrito</button>
+        </div>
+      </div>
+    </article>
+  }
+</main>

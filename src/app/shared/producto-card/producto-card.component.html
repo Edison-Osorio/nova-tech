@@ -1,0 +1,30 @@
+<div class="card card--clickable" (click)="irADetalle()">
+  <img [src]="producto.imagen || 'img/placeholder.png'" [alt]="producto.nombre">
+  <h3>{{ producto.nombre }}</h3>
+  <p>{{ producto.descripcion }}</p>
+
+  @if (expandido) {
+    <div class="extra-info">
+      <p><strong>Características:</strong></p>
+      <p>{{ producto.caracteristicas || 'Información no disponible' }}</p>
+    </div>
+  }
+
+  <div class="card-buttons">
+    @if (mostrarEliminar) {
+      <button type="button" class="btn-eliminar-fav" (click)="eliminarFavorito($event)">Eliminar</button>
+    } @else {
+      <button
+        type="button"
+        class="fav-btn"
+        [class.favorited]="esFavorito"
+        (click)="toggleFavorito($event)">
+        <span class="heart">❤</span>
+        <span class="fav-text">{{ esFavorito ? 'Favorito' : 'Agregar a favoritos' }}</span>
+      </button>
+    }
+    <button type="button" (click)="toggleVerMas($event)">
+      {{ expandido ? 'Ver menos' : 'Ver más' }}
+    </button>
+  </div>
+</div>

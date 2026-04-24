@@ -1,0 +1,116 @@
+<section class="contacto-hero">
+  <div class="contacto-hero-content">
+    <h1>Contacto</h1>
+    <p>¿Tienes dudas o necesitas asesoría? ¡Estamos aquí para ayudarte!<br>
+       Envíanos un mensaje y te responderemos en breve.</p>
+  </div>
+</section>
+
+<section class="contacto-section">
+  <div class="contacto-info">
+    <h2>Información de contacto</h2>
+    <p class="info-subtitulo">Estamos aquí para ayudarte con tus necesidades</p>
+
+    <div class="info-bloque">
+      <h3><span class="icono">📍</span> Dirección</h3>
+      <p>Carrera 15 # 78-33 local-15<br>Centro Comercial Unilago<br>Bogotá D.C</p>
+    </div>
+    <div class="info-bloque">
+      <h3><span class="icono">✉️</span> Correo electrónico</h3>
+      <p>NOVATECH-1&#64;outlook.com</p>
+    </div>
+    <div class="info-bloque">
+      <h3><span class="icono">📞</span> Teléfono</h3>
+      <p>+573118957844<br>Lunes a Viernes de 8:00 a 17:00</p>
+    </div>
+    <div class="redes-contacto">
+      <button class="red-btn">𝕏 Twitter</button>
+      <button class="red-btn">📷 Instagram</button>
+      <button class="red-btn">👥 Facebook</button>
+      <button class="red-btn">in LinkedIn</button>
+    </div>
+  </div>
+
+  <div class="contacto-form-card">
+    <form [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+      <div class="form-doble">
+        <div class="form-row">
+          <label for="nombre">Nombre completo <span class="requerido">*</span></label>
+          <input id="nombre" name="nombre" type="text" formControlName="nombre"
+                 placeholder="Tu nombre completo" maxlength="80"
+                 [class.campo-error]="campoInvalido('nombre')">
+          @if (campoInvalido('nombre')) {
+            <span class="error-msg">Por favor ingresa tu nombre.</span>
+          }
+        </div>
+        <div class="form-row">
+          <label for="cc">Número de cédula (CC) <span class="requerido">*</span></label>
+          <input id="cc" name="cc" type="text" formControlName="cc"
+                 placeholder="Ej: 1001234567" maxlength="12" inputmode="numeric"
+                 [class.campo-error]="campoInvalido('cc')"
+                 (input)="soloDigitos($event)">
+          @if (campoInvalido('cc')) {
+            <span class="error-msg">El número de CC debe tener mínimo 5 dígitos.</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-doble">
+        <div class="form-row">
+          <label for="correo">Correo electrónico <span class="requerido">*</span></label>
+          <input id="correo" name="correo" type="email" formControlName="correo"
+                 placeholder="tucorreo@ejemplo.com"
+                 [class.campo-error]="campoInvalido('correo')">
+          @if (campoInvalido('correo')) {
+            <span class="error-msg">Ingresa un correo electrónico válido.</span>
+          }
+        </div>
+        <div class="form-row">
+          <label for="celular">Número de celular <span class="requerido">*</span></label>
+          <input id="celular" name="celular" type="text" formControlName="celular"
+                 placeholder="Ej: 57300 123 9876" maxlength="13" inputmode="numeric"
+                 [class.campo-error]="campoInvalido('celular')"
+                 (input)="soloDigitos($event)">
+          @if (campoInvalido('celular')) {
+            <span class="error-msg">El número de celular debe tener mínimo 10 dígitos.</span>
+          }
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="asunto">Asunto <span class="requerido">*</span></label>
+        <input id="asunto" name="asunto" type="text" formControlName="asunto"
+               placeholder="¿En qué podemos ayudarte?" maxlength="100"
+               [class.campo-error]="campoInvalido('asunto')">
+        @if (campoInvalido('asunto')) {
+          <span class="error-msg">Por favor indica el asunto.</span>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="mensaje">Mensaje <span class="requerido">*</span></label>
+        <textarea id="mensaje" name="mensaje" formControlName="mensaje"
+                  placeholder="Escribe aquí tu mensaje detallado..."
+                  [class.campo-error]="campoInvalido('mensaje')"></textarea>
+        @if (campoInvalido('mensaje')) {
+          <span class="error-msg">Por favor escribe tu mensaje.</span>
+        }
+      </div>
+
+      <button type="submit" class="btn-enviar" [disabled]="enviando">
+        {{ enviando ? 'Enviando...' : 'Enviar mensaje' }}
+      </button>
+
+      @if (enviado) {
+        <div class="alerta alerta-exito">
+          ✅ ¡Mensaje enviado correctamente! Te responderemos pronto a tu correo.
+        </div>
+      }
+      @if (errorEnvio) {
+        <div class="alerta alerta-error-envio">
+          ❌ Hubo un problema al enviar el mensaje. Intenta de nuevo o escríbenos directamente.
+        </div>
+      }
+    </form>
+  </div>
+</section>

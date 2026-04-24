@@ -1,0 +1,21 @@
+<section>
+  <div class="fav-header">
+    <h2 class="fav-header__title">Mis favoritos</h2>
+  </div>
+</section>
+
+<section id="favoritos">
+  @if (favoritosService.favoritos().length === 0) {
+    <div class="no-favoritos">
+      <p>Aún no tienes productos agregados a favoritos.</p>
+      <a routerLink="/catalogo" class="btn-primary">Haz clic aquí</a>
+    </div>
+  } @else {
+    @for (producto of favoritosService.favoritos(); track producto.nombre) {
+      <app-producto-card
+        [producto]="producto"
+        [mostrarEliminar]="true"
+        (eliminado)="quitar($event)" />
+    }
+  }
+</section>
